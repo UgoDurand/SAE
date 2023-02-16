@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Notre Equipe{% endblock %}
+
+{% block body %}
+    <h1>Notre équipe </h1>
+
+    {% for membre in equipe %}
+        {{ membre.prenom }} {{ membre.nom }}
+        <img src="{{ vich_uploader_asset(membre, 'imageFile') }}">
+    {% endfor %}
+
+    {% if "ROLE_ADMIN" in app.user.roles %}
+        <form action="{{ path('app_new_equipe') }}" method="post">
+            <button type="submit">Ajouter une personne à l'équipe</button>
+        </form>
+
+    {% endif %}
+{% endblock %}
