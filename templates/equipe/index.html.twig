@@ -3,17 +3,28 @@
 {% block title %}Notre Equipe{% endblock %}
 
 {% block body %}
-    <h1>Notre équipe </h1>
 
+    <script>
+    </script>
+
+    <h1>Notre équipe </h1>
+    <table align="center">
     {% for membre in equipe %}
-        {{ membre.prenom }} {{ membre.nom }}
-        <img src="{{ vich_uploader_asset(membre, 'imageFile') }}">
+        <tr>
+        <td colspan="3px">{{ membre.prenom }} {{ membre.nom }}</td>
+        <td><img src="{{ vich_uploader_asset(membre, 'imageFile') }}"></td>
+        <td><a href="{{ membre.linkedin }}"><button>Voir</button></a></td>
+        </tr>
     {% endfor %}
 
+    </table>
+
     {% if "ROLE_ADMIN" in app.user.roles %}
+        <div>
         <form action="{{ path('app_new_equipe') }}" method="post">
             <button type="submit">Ajouter une personne à l'équipe</button>
         </form>
+        </div>
 
     {% endif %}
 {% endblock %}

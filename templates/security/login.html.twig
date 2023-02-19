@@ -35,8 +35,13 @@
         </div>
     #}
 
-    <button class="btn btn-lg btn-primary" style="margin-left: 45%; margin-top: 2%" type="submit">
-        CONNEXION
-    </button>
+    <div>
+        <button class="btn btn-lg btn-primary" style="margin-left: 45%; margin-top: 2%" type="submit">
+            CONNEXION
+        </button>
+    </div>
 </form>
+            <form action="{{ path('app_register') }}" method="post">
+                <button class="btn btn-lg btn-primary" style="margin-left: 45%; margin-top: 2%" type="submit">S'inscrire</button>
+            </form>
 {% endblock %}
