@@ -9,6 +9,7 @@
     {% for film in films %}
     <li>
         {{ film.primaryTitle }}
+        <a href="{{ path('app_fiche', {'id': film.id}) }}">(voir la fiche)</a>
     </li>
     {% endfor %}
     </ul>
