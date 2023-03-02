@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ personne.name }}{{ personne.primaryName }}{% endblock %}
+
+{% block body %}
+    <h1>{{ personne.name }} {{ personne.primaryName }}</h1>
+
+        <li>Année de Naissance : {{ personne.birthYear }}</li>
+    {%if personne.deathYear %}
+        <li>Année de décès : {{ personne.deathYear }} à {{ personne.deathYear - personne.birthYear}} ans</li>
+    {% endif %}
+
+    <li>Métiers :
+        {% for job in personne.primaryProfession %}
+            {{ job }}
+        {% endfor %}
+    </li>
+
+        {% if personne.knownForTitles|length ==0 %}
+        {% else %}
+            <li>
+        Connu pour avoir joué dans :
+        {% for titre in personne.knownForTitles %}
+            <ol>
+                {{ titre.primaryTitle }}
+            </ol>
+        {% endfor %}
+            </li>
+        {% endif %}
+
+    {% if titres|length ==0 %}
+    {% else %}
+        <li>
+            Connu pour avoir été le directeur de :
+            {% for titre in titres %}
+                <ol>
+                    {{ titre.primaryTitle }}
+                </ol>
+            {% endfor %}
+        </li>
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ genre }}{% endblock %}
+
+{% block body %}
+    <h1>{{ genre }}</h1>
+    <h5>Retrouvez sur cette page tous les films et séries du genre : {{ genre }}</h5>
+    <ul>
+    {% for film in films %}
+    <li>
+        {{ film.primaryTitle }}
+    </li>
+    {% endfor %}
+    </ul>
+{% endblock %}

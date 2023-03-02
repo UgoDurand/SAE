@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Index Séries et Films{% endblock %}
+
+{% block body %}
+
+    <style>
+        .desc{
+            text-align: center;
+        }
+
+    </style>
+    <div class="desc">
+    <h1>Séries et Films</h1>
+    <p>Retrouvez toutes les séries et films sur cette page.<br>
+    Consulter leur fiche individuelle en cliquant sur l'hyperlien</p>
+    </div>
+
+    {% for lettre in lettres %}
+
+
+        {% set films_correspondants = [] %}
+        {% for film in films%}
+            {% if film.primaryTitle[:1]|lower == lettre %}
+                {% set films_correspondants = films_correspondants + [film] %}
+            {% endif %}
+        {% endfor %}
+
+
+        {% if films_correspondants|length > 0 %}
+            <h2>{{ lettre|upper }}</h2>
+            <ul>
+                {% for film in films_correspondants %}
+                    <li>
+                        {{ film.primaryTitle }}
+                        <a href="{{ path('app_fiche', {'id': film.id}) }}">(voir la fiche)</a>
+                    </li>
+                {% endfor %}
+
+            </ul>
+    {% endif %}
+    {% endfor %}
+{% endblock %}
+
+

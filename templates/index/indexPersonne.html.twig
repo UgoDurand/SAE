@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Index{% endblock %}
+
+{% block body %}
+
+    <style>
+        .desc{
+            text-align: center;
+        }
+
+    </style>
+    <div class="desc">
+    <h1>Index</h1>
+    <p>Retrouvez tous les acteurs, réalisateurs et stars du cinéma sur cette page.<br>
+    Consulter leur fiche individuelle en cliquant sur l'hyperlien</p>
+    </div>
+
+    {% for lettre in lettres %}
+
+
+        {% set acteurs_correspondants = [] %}
+        {% for acteur in acteurs%}
+            {% if acteur.primaryName[:1]|lower == lettre %}
+                {% set acteurs_correspondants = acteurs_correspondants + [acteur] %}
+            {% endif %}
+        {% endfor %}
+
+
+        {% if acteurs_correspondants|length > 0 %}
+            <h2>{{ lettre|upper }}</h2>
+            <ul>
+                {% for acteur in acteurs_correspondants %}
+                    <li>{{ acteur.primaryName }} {{ acteur.name }}
+                        <a href="{{ path('app_fiche_personne', {'id': acteur.id}) }}">(voir la fiche)</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+    {% endfor %}
+{% endblock %}

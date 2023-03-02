@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ film.primaryTitle }}{% endblock %}
+
+{% block body %}
+    <h1>{{ film.primaryTitle }}</h1>
+    {% if film.originalTitle != film.primaryTitle %}
+    <h4>Titre Original : {{ film.originalTitle }}</h4>
+    {% endif %}
+    <h5>{{ film.titleType }}</h5><br>
+
+    {% if film.titleType == 'série' %}
+
+        <li>Début : {{ film.startYear|date('d-m-Y') }}</li>
+        <li>Fin : {{ film.endYear|date('d-m-Y') }}</li>
+    {% endif %}
+
+    {% if film.titleType == 'Film' %}
+
+        <li>
+            Durée : {{ film.runtimeMinutes }} minutes
+        </li>
+    {% endif %}
+    <li>
+        Catégorie :
+        {% if film.isAdult == "true" %}
+            Adultes
+        {% else %}
+            Tout Public
+        {% endif %}
+    </li>
+
+    <li>Genres :
+        {% for genre in film.genres %}
+            {{ genre }}
+        {% endfor %}
+    </li>
+
+    <li>
+        Directeurs :
+        {% if film.crew|length==0 %}
+            Non renseigné
+        {% else %}
+            {% for directeur in film.crew.directors %}
+                {{ directeur.name }} {{ directeur.primaryName }}
+            {% endfor %}
+        {% endif %}
+    </li>
+
+    <li>
+        Acteur(s) :{% if film.acteurs|length ==0 %} Non Renseigné
+        {% else %}
+        {% for acteur in film.acteurs %}
+            <ol>
+            {{ acteur.name }} {{ acteur.PrimaryName }}
+            </ol>
+        {% endfor %}
+        {% endif %}
+    </li>
+{% endblock %}
