@@ -9,6 +9,7 @@ use App\Form\ContactType;
 use App\Form\EquipeType;
 use App\Form\RegistrationFormType;
 use App\Repository\EquipeRepository;
+use App\Repository\TitleBasicRepository;
 use App\Security\LoginAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,21 +26,46 @@ class EquipeController extends AbstractController
     /**
      * @Route("/equipe", name="app_equipe")
      */
-    public function index(EquipeRepository $equipeRepository): Response
+    public function index(EquipeRepository $equipeRepository, TitleBasicRepository $titleBasicRepository): Response
     {
         $equipe = $equipeRepository->findAll();
 
+        $themes=[];
+        $titres=$titleBasicRepository->findAll();
+        foreach ($titres as $titre){
+            $genres=$titre->getGenres();
+            foreach ($genres as $genre) {
+                if (!(in_array($genre, $themes))) {
+                    $themes[] = $genre;
+                }
+            }
+        }
+        sort($themes);
+
         return $this->render('equipe/index.html.twig', [
             'controller_name' => 'EquipeController',
-            'equipe'=>$equipe
+            'equipe'=>$equipe,
+            "genres"=>$themes
         ]);
     }
 
     /**
      * @Route("/new", name="app_new_equipe")
      */
-    public function new(Request $request,EquipeRepository $equipeRepository, EntityManagerInterface $manager): Response
+    public function new(Request $request,EquipeRepository $equipeRepository, EntityManagerInterface $manager, TitleBasicRepository $titleBasicRepository): Response
     {
+
+        $themes=[];
+        $titres=$titleBasicRepository->findAll();
+        foreach ($titres as $titre){
+            $genres=$titre->getGenres();
+            foreach ($genres as $genre) {
+                if (!(in_array($genre, $themes))) {
+                    $themes[] = $genre;
+                }
+            }
+        }
+        sort($themes);
         $equipe = new Equipe();
         $form = $this->createForm(EquipeType::class, $equipe);
         $form->handleRequest($request);
@@ -50,6 +76,8 @@ class EquipeController extends AbstractController
             return $this->redirectToRoute('app_equipe');
         }
         return $this->render('equipe/new.html.twig', [
-            'equipeForm' => $form->createView()]);
+            'equipeForm' => $form->createView(),
+            "genres"=>$themes
+        ]);
     }
 }

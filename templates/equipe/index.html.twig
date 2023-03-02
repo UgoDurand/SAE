@@ -8,7 +8,9 @@
     </script>
 
     <h1>Notre équipe </h1>
-    <table align="center">
+    <p>Voici l'équipe Ope Ope no Movie.<br>
+    Vous pouvez consulter nos profils linkedin et nous contacter dessus si besoin !</p>
+    <table>
     {% for membre in equipe %}
         <tr>
         <td colspan="3px">{{ membre.prenom }} {{ membre.nom }}</td>
@@ -17,7 +19,7 @@
         </tr>
     {% endfor %}
 
-    </table>
+    </table><br>
 
     {% if "ROLE_ADMIN" in app.user.roles %}
         <div>

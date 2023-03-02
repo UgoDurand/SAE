@@ -12,13 +12,12 @@
     {{ form_row(registrationForm.Sexe, {'attr': {'class': 'form-control'}}) }}
     {{ form_row(registrationForm.password.first, {'attr': {'class': 'form-control'}}) }}
     {{ form_row(registrationForm.password.second, {'attr': {'class': 'form-control'}}) }}
-    {{ form_row(registrationForm.agreeTerms) }}
 
     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
     <div>
         <button class="btn btn-lg btn-primary" style="margin-left: 45%; margin-top: 2%" type="submit">
-            Register
+            S'inscrire
         </button>
     </div>
     {{ form_end(registrationForm) }}

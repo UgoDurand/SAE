@@ -1,6 +1,105 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Menu Principal{% endblock %}
+
 {% block body %}
-    <h1>Menu principal</h1>
+    <style>
+
+        .desc{
+            text-align: center;
+        }
+
+        .menu {
+            text-align: center;
+            margin-bottom: 3%;
+            margin-top: 1.5%;
+        }
+
+        section{
+            background-color: #444343;
+            display: inline-block;
+            margin-right: 6%;
+            padding-left: 3%;
+            padding-right: 3%;
+            text-align: center;
+        }
+
+        .star {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .star img {
+            width: 40px;
+            height: 40px;
+            vertical-align: middle;
+        }
+        .clock {
+            display: inline-block;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        .clock img {
+            width: 35px;
+            height: 35px;
+            vertical-align: middle;
+        }
+
+    </style>
+
+    <div class="desc">
+        <h1>Menu principal</h1></br>
+        <p>Bienvenue sur Ope Ope No Movie !</br>
+        Retrouvez sur cette nouvelle plateforme l'intégralité des informations sur vos films et séries favoris.</br>
+        Contacter nous via le formulaire de la page de contact pour nous faire part de vos requêtes.</br>
+            L'équipe de Ope Ope No Movie vous remercie pour votre visite
+        </p></br>
+    </div>
+
+    <h3><span>Derniers ajouts </span><span class="clock"><img alt="horloge" src="https://www.pngmart.com/files/13/Alarm-Clock-PNG-HD.png"></span></h3>
+
+    <div class="menu">
+        {% set i=0 %}
+        {% for film in films%}
+            {% if i<4 %}
+                <section>
+                    <u><h5>{{ film.primaryTitle}}</h5></u>
+                    <img src="https://previews.123rf.com/images/ylivdesign/ylivdesign1507/ylivdesign150700324/41759569-l-image-gris-de-cadenas-fermé-dans-le-cercle-sur-blanc-fond-dégradé.jpg"><br>
+                    <form action="{{ path('app_fiche', {'id': film.id}) }}" method="post">
+                        <button type="submit">Voir</button>
+                    </form>
+                </section>
+                {% set i=i+1 %}
+            {% endif %}
+        {% endfor%}
+    </div>
+
+
+
+
+
+    <h3><span>Meilleures notes</span><span class="star"><img alt="étoile" src="https://cdn.pixabay.com/photo/2016/12/12/13/23/star-1901588_1280.png"></span></h3>
+
+    <div class="menu">
+        {% set i=0 %}
+        {% for note in notes %}
+            {% if i<4 %}
+            <section>
+                <u><h5>{{ note.name.primaryTitle}}</h5></u>
+                <img src="https://previews.123rf.com/images/ylivdesign/ylivdesign1507/ylivdesign150700324/41759569-l-image-gris-de-cadenas-fermé-dans-le-cercle-sur-blanc-fond-dégradé.jpg"><br>
+                {{ note.averageRating }}/5
+                </br>
+                {{ note.NumVotes }} votes
+                </br>
+                <form action="{{ path('app_fiche', {'id': note.name.id}) }}" method="post">
+                    <button type="submit">Voir</button>
+                </form>
+            </section>
+            {% set i=i+1 %}
+            {% endif %}
+        {% endfor %}
+    </div>
+
 
 {% endblock %}

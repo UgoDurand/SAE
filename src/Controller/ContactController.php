@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Contact;
 use App\Form\ContactType;
+use App\Repository\TitleBasicRepository;
+use App\Repository\TitleRatingsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,8 +19,22 @@ class ContactController extends AbstractController
     /**
      * @Route("/contact", name="app_contact")
      */
-    public function index(Request $request, EntityManagerInterface $manager, MailerInterface $mailer): Response
+    public function index(Request $request, EntityManagerInterface $manager,TitleRatingsRepository $ratingsRepository, MailerInterface $mailer, TitleBasicRepository $titleBasicRepository): Response
     {
+        $themes=[];
+        $titres=$titleBasicRepository->findAll();
+        foreach ($titres as $titre){
+            $genres=$titre->getGenres();
+            foreach ($genres as $genre) {
+                if (!(in_array($genre, $themes))) {
+                    $themes[] = $genre;
+                }
+            }
+        }
+        sort($themes);
+        $notes=$ratingsRepository->findBy([],['averageRating'=>'DESC']);
+
+
         $contact=new Contact();
         if($this->getUser()){
             $contact->setFullName($this->getUser()->getNom() . " " . $this->getUser()->getPrenom());
@@ -36,15 +52,17 @@ class ContactController extends AbstractController
                 ->subject($contact->getSujet())
                 ->text($contact->getMessage());
 
-            $mailer->send($email);
-
             return $this->render('menu/menu.html.twig', [
                 "form"=>$form->createView(),
+                "genres"=>$themes,
+                "films"=>$titres,
+                "notes"=>$notes,
             ]);
         }
 
         return $this->render('contact/index.html.twig', [
             "form"=>$form->createView(),
+            "genres"=>$themes
         ]);
     }
 }
